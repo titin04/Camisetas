@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}">
+</head>
+<body>
+    <div class="container">
+        <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+        <h4 th:switch="${accion}">
+            <span th:case="añadir">Añadiendo Provincia</span>
+            <span th:case="editar">Editando Provincia</span>
+            <span th:case="borrar">Eliminando Provincia</span>
+        </h4>
+
+        <form class="row" action="" method="post" th:object="${provincia}">
+            <div class="mb-3">
+                <label class="form-label" for="codigo">Código de provincia</label>
+                <input th:if="${accion}!='borrar'" name="codigo" th:value="${provincia.codigo}" class="form-control" placeholder="ej: 23"/>
+                <input th:unless="${accion}!='borrar'" name="codigo" th:value="${provincia.codigo}" class="form-control" disabled/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="nombreProvincia">Nombre de provincia</label>
+                <input th:if="${accion}!='borrar'" name="nombreProvincia" th:value="${provincia.nombreProvincia}" class="form-control" placeholder="ej: Jaén"/>
+                <input th:unless="${accion}!='borrar'" name="nombreProvincia" th:value="${provincia.nombreProvincia}" class="form-control" disabled/>
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label" for="comunidad">Comunidad Autónoma</label>
+                <input th:if="${accion}!='borrar'" name="comunidad" th:value="${provincia.comunidad}" class="form-control" placeholder="ej: Andalucía"/>
+                <input th:unless="${accion}!='borrar'" name="comunidad" th:value="${provincia.comunidad}" class="form-control" disabled/>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" class="btn btn-success">Enviar</button>
+                <button type="reset" class="btn btn-danger">Cancelar</button>
+            </div>
+        </form>
+
+        <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Eliminar Camiseta</h2>
+
+    <form th:action="@{/admin/camiseta/delete/{id}(id=${camiseta.id})}" method="post">
+        <p>
+            ¿Seguro que deseas eliminar la camiseta
+            <strong>
+                <span th:text="${camiseta.marca}"></span> -
+                <span th:text="${camiseta.color}"></span> -
+                <span th:text="${camiseta.talla}"></span>
+            </strong>?
+        </p>
+
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a th:href="@{/admin/camiseta}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

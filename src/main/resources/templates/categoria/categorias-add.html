@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Añadir Categoría</h2>
+
+    <form th:action="@{/admin/categoria/add}" th:object="${categoria}" method="post">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" th:field="*{nombre}" class="form-control" placeholder="Ej: Ropa"/>
+        </div>
+
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea th:field="*{descripcion}" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="padre" class="form-label">Categoría Padre</label>
+            <select th:field="*{padre}" class="form-control">
+                <option th:each="c : ${categorias}" th:value="${c}" th:text="${c.nombre}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a th:href="@{/admin/categoria}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

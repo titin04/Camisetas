@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Eliminar Categoría</h2>
+
+    <form th:action="@{/admin/categoria/delete/{id}(id=${categoria.id})}" method="post">
+        <p>¿Seguro que deseas eliminar la categoría <strong th:text="${categoria.nombre}"></strong>?</p>
+
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a th:href="@{/admin/categoria}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

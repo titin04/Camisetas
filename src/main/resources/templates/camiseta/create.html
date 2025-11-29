@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Añadir Camiseta</h2>
+
+    <form th:action="@{/admin/camiseta/add}" th:object="${camiseta}" method="post">
+
+        <!-- Talla -->
+        <div class="mb-3">
+            <label for="talla" class="form-label">Talla</label>
+            <select th:field="*{talla}" class="form-control">
+                <option th:each="t : ${Talla}" th:value="${t}" th:text="${t}"></option>
+            </select>
+        </div>
+
+        <!-- Sexo -->
+        <div class="mb-3">
+            <label for="sexo" class="form-label">Sexo</label>
+            <select th:field="*{sexo}" class="form-control">
+                <option th:each="s : ${Sexo}" th:value="${s}" th:text="${s}"></option>
+            </select>
+        </div>
+
+        <!-- Color -->
+        <div class="mb-3">
+            <label for="color" class="form-label">Color</label>
+            <input type="text" th:field="*{color}" class="form-control" placeholder="Ej: Rojo"/>
+        </div>
+
+        <!-- Marca -->
+        <div class="mb-3">
+            <label for="marca" class="form-label">Marca</label>
+            <input type="text" th:field="*{marca}" class="form-control" placeholder="Ej: Nike"/>
+        </div>
+
+        <!-- Stock -->
+        <div class="mb-3">
+            <label for="stock" class="form-label">Stock</label>
+            <input type="number" th:field="*{stock}" class="form-control" placeholder="Ej: 50"/>
+        </div>
+
+        <!-- Precio -->
+        <div class="mb-3">
+            <label for="precio" class="form-label">Precio (€)</label>
+            <input type="number" step="0.01" th:field="*{precio}" class="form-control" placeholder="Ej: 19.99"/>
+        </div>
+
+        <!-- Botones -->
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a th:href="@{/admin/camiseta}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

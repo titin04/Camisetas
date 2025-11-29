@@ -1,0 +1,89 @@
+@startuml
+title Sistema de Gestión Integral - Tienda de Camisetas Online
+
+class Usuario {
+    - id: int
+    - username: String
+    - passwordHash: String
+    - email: String
+    - telefono: String
+    - nombre: String
+    - apellidos: String
+    - rol: Rol
+    --
+    + login()
+    + registrar()
+}
+
+class Direccion {
+    - id: int
+    - tipoVia: String
+    - nombreVia: String
+    - numero: String
+    - portal: String
+    - puerta: String
+    - codigoPostal: String
+    - poblacion: String
+    - municipio: String
+    - provincia: String
+    - pais: String
+    - telefono: String
+    - porDefecto: boolean
+}
+
+class Producto {
+    - id: int
+    - nombre: String
+    - descripcion: String
+    - numero: String
+    - precio: double
+}
+
+class Pedido {
+    - numPedido: int
+    - fechaRecepcion: Date
+    - estado: EstadoPedido
+    --
+    + calcularTotal()
+}
+
+class LineaPedido {
+    - cantidad: int
+    - precioUnitario: double
+}
+
+class Carrito {
+    - id: int
+    --
+    + agregarProducto()
+    + eliminarProducto()
+    + vaciarCarrito()
+    + calcularTotal()
+}
+
+enum Rol {
+    cliente
+    operario
+    admin
+}
+
+enum EstadoPedido {
+    recibido
+    en_preparacion
+    enviado
+}
+
+Usuario "1" -- "0..*" Direccion
+
+Usuario "1" -- "1" Carrito
+
+Carrito "1" -- "0..*" LineaPedido
+LineaPedido "1" -- "1" Producto
+
+Usuario "1" -- "0..*" Pedido
+
+Pedido "1" -- "1..*" LineaPedido
+
+Pedido "1" -- "1" Direccion
+
+@enduml

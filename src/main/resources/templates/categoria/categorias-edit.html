@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Editar Categoría</h2>
+
+    <form th:action="@{/admin/categoria/edit/{id}(id=${categoria.id})}" th:object="${categoria}" method="post">
+        <div class="mb-3">
+            <label for="id" class="form-label">ID</label>
+            <input type="text" th:field="*{id}" class="form-control" readonly/>
+        </div>
+
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" th:field="*{nombre}" class="form-control"/>
+        </div>
+
+        <div class="mb-3">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea th:field="*{descripcion}" class="form-control"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="padre" class="form-label">Categoría Padre</label>
+            <select th:field="*{padre}" class="form-control">
+                <option th:each="c : ${categorias}" th:value="${c}" th:text="${c.nombre}"
+                        th:selected="${c.id} == ${categoria.padre?.id}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Actualizar</button>
+        <a th:href="@{/admin/categoria}" class="btn btn-secondary">Cancelar</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>
