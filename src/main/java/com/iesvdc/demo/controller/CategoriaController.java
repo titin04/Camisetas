@@ -42,12 +42,13 @@ public class CategoriaController {
 
         if(oCategoria.isPresent()) {
             Categoria padre = oCategoria.get();
+            model.addAttribute("padre", padre);
             model.addAttribute("categorias", repoCategoria.findByPadre(padre));
-            return "categoria/categorias";
+            return "categoria/categorias-detalle";
         } else {
             model.addAttribute("titulo", "Categoria: ERROR");
             model.addAttribute("mensaje", "No puedo encontrar esa categoría en la base de datos");
-            return "error";
+            return "categoria/categorias-error";
         }
 
     }
@@ -60,8 +61,12 @@ public class CategoriaController {
     }
 
     @PostMapping("categoria/add")
-    public String postMethodName(
-            @ModelAttribute("categoria") Categoria categoria)  {
+    public String add(@ModelAttribute("categoria") Categoria categoria) {
+        if (categoria.getPadre() != null && categoria.getPadre().getId() != null) {
+            Categoria padre = repoCategoria.findById(categoria.getPadre().getId())
+                    .orElse(null);
+            categoria.setPadre(padre);
+        }
         repoCategoria.save(categoria);
         return "redirect:/admin/categoria";
     }
@@ -73,32 +78,32 @@ public class CategoriaController {
         try {
             Optional<Categoria> categoria = repoCategoria.findById(id);
             if (categoria.isPresent()){
-                // si existe la categoria
                 modelo.addAttribute(
                         "categoria", categoria.get());
                 return "categoria/categorias-del";
             } else {
-                return "error";
+                return "categoria/categorias-error";
             }
 
         } catch (Exception e) {
-            return "error";
+            return "categoria/categorias-error";
         }
     }
-
 
     @PostMapping("categoria/delete/{id}")
-    public String delete(
-            @PathVariable("id") @NonNull Long id) {
-        try {
+    public String delete(@PathVariable Long id, Model model) {
+        Optional<Categoria> padre = repoCategoria.findById(id);
+        if (padre.isPresent()) {
+            List<Categoria> hijos = repoCategoria.findByPadre(padre.get());
+            if (!hijos.isEmpty()) {
+                model.addAttribute("titulo", "Error al borrar");
+                model.addAttribute("mensaje", "No se puede borrar una categoría que tenga hijos");
+                return "categoria/categorias-error";
+            }
             repoCategoria.deleteById(id);
-        } catch (Exception e) {
-            return "error";
         }
-
         return "redirect:/admin/categoria";
     }
-
 
     @GetMapping("categoria/edit/{id}")
     public String editForm(
@@ -121,8 +126,19 @@ public class CategoriaController {
             modelo.addAttribute(
                     "titulo",
                     "Error en categorías.");
-            return "error";
+            return "categoria/categorias-error";
         }
     }
 
+    @PostMapping("categoria/edit/{id}")
+    public String edit(@ModelAttribute("categoria") Categoria categoria) {
+        if (categoria.getPadre() != null && categoria.getPadre().getId() != null) {
+            Categoria padre = repoCategoria.findById(categoria.getPadre().getId()).orElse(null);
+            categoria.setPadre(padre);
+        } else {
+            categoria.setPadre(null);
+        }
+        repoCategoria.save(categoria);
+        return "redirect:/admin/categoria";
+    }
 }

@@ -1,0 +1,14 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo} ?: 'Error'">Error</title>
+</head>
+<body>
+<div class="container">
+    <h2 th:text="${titulo} ?: 'Ha ocurrido un error'"></h2>
+    <p th:text="${mensaje} ?: 'Lo sentimos, no se pudo completar la operación.'"></p>
+    <a th:href="@{/admin/categoria}" class="btn btn-secondary">Volver al listado</a>
+</div>
+</body>
+</html>

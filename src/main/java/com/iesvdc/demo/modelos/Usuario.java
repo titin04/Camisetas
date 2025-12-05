@@ -26,7 +26,8 @@ public class Usuario {
     @Column(nullable = false, length = 64)
     private String password;
 
-    //private boolean enabled;
+    @Column(nullable = false)
+    private boolean enabled;
 
     @Column(unique = true, nullable = false, length = 120)
     private String email;

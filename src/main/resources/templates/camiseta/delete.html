@@ -13,9 +13,11 @@
             <strong>
                 <span th:text="${camiseta.marca}"></span> -
                 <span th:text="${camiseta.color}"></span> -
-                <span th:text="${camiseta.talla}"></span>
+                <span th:text="${camiseta.talla}"></span> -
+                <span th:text="${camiseta.categoria.nombre}"></span>
             </strong>?
         </p>
+
 
         <button type="submit" class="btn btn-danger">Eliminar</button>
         <a th:href="@{/admin/camiseta}" class="btn btn-secondary">Cancelar</a>

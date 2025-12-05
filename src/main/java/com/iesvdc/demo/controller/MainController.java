@@ -4,40 +4,77 @@ import com.iesvdc.demo.modelos.Rol;
 import com.iesvdc.demo.modelos.Usuario;
 import com.iesvdc.demo.repositorios.RepoUsuario;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
-@RequestMapping("/admin")
 public class MainController {
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
+
     @Autowired
     RepoUsuario repoUsuario;
 
-     @PostMapping("/saluda")
-     public String saluda(@ModelAttribute String nombre, Model modelo) {
-        modelo.addAttribute("mensaje", "Hola mundo");
-        modelo.addAttribute("nombre", nombre);
-        return "saluda";
-     }
+    @GetMapping("/")
+    public String home() {
+        return "index";
+    }
 
-    @GetMapping("/inserta")
-    public String getMethodName(Model modelo) {
-        Usuario u = new Usuario();
-        u.setUsername("pepe");
-        u.setNombre("Pepe");
-        u.setApellido("Pepe");
-        u.setPassword("123456");
-        u.setTelefono(634956874);
-        u.setEmail("pepe@gmail.com");
-        u.setNif("123456F");
-        u.setRol(Rol.CLIENTE);
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
 
-        repoUsuario.save(u);
+    @GetMapping("/register")
+    public String registerForm() {
+        return "register";
+    }
 
-        modelo.addAttribute("mensaje", "Insertando usuario");
-        modelo.addAttribute("nombre", u.getUsername());
+    @PostMapping("/register")
+    public String register(
+            Model model,
+            @RequestParam String username,
+            @RequestParam String password,
+            @RequestParam String nombre,
+            @RequestParam String apellido,
+            @RequestParam String email,
+            @RequestParam int telefono,
+            @RequestParam String nif,
+            @RequestParam String rol) {
 
-        return "saluda";
+        try {
+            Usuario usuario = new Usuario();
+            usuario.setUsername(username);
+            usuario.setPassword(passwordEncoder.encode(password)); // encriptar
+            usuario.setNombre(nombre);
+            usuario.setApellido(apellido);
+            usuario.setEmail(email);
+            usuario.setTelefono(telefono);
+            usuario.setNif(nif);
+            usuario.setEnabled(true);
+            usuario.setRol(Rol.valueOf(rol));
+
+            repoUsuario.save(usuario);
+
+            model.addAttribute("mensaje", "Usuario creado correctamente");
+            return "redirect:/login";
+        } catch (Exception e) {
+            model.addAttribute("mensaje", "Error al crear usuario: " + e.getMessage());
+            return "register";
+        }
+    }
+
+
+    @GetMapping("/error")
+    public String error(Model model) {
+        model.addAttribute("titulo", "ERROR");
+        model.addAttribute("mensaje", "Error genérico");
+        return "error";
     }
 }
+
+

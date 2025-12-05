@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface RepoCamiseta extends JpaRepository<Camiseta, Long> {
-    List<Camiseta> findByMarca(String marca);
+    List<Camiseta> findByCategoriaId(Long categoriaId);
     Optional<Camiseta> findById(Long id);
 }

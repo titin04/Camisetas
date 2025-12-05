@@ -5,23 +5,21 @@
 <div class="container">
     <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
 
-    <div th:if="${padre != null}">
-        <h2 th:text="'Detalle de la categoría: ' + ${padre.nombre}"></h2>
-        <p><strong>Descripción:</strong> <span th:text="${padre.descripcion}"></span></p>
-        <p><strong>Padre:</strong>
-            <span th:text="${padre.padre != null ? padre.padre.nombre : '---'}"></span>
-        </p>
-    </div>
-    <h2 th:if="${padre == null}">Listado de Categorías</h2>
+    <!-- Datos del padre -->
+    <h2 th:text="'Detalle de la categoría: ' + ${padre.nombre}"></h2>
+    <p><strong>Descripción:</strong> <span th:text="${padre.descripcion}"></span></p>
+    <p><strong>Padre:</strong>
+        <span th:text="${padre.padre != null ? padre.padre.nombre : '---'}"></span>
+    </p>
 
-
+    <!-- Subcategorías -->
+    <h3>Subcategorías</h3>
     <table class="table table-striped">
         <thead>
         <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Descripción</th>
-            <th>Acciones</th>
         </tr>
         </thead>
         <tbody>
@@ -29,16 +27,11 @@
             <td th:text="${c.id}"></td>
             <td th:text="${c.nombre}"></td>
             <td th:text="${c.descripcion}"></td>
-            <td>
-                <a th:href="@{/admin/categoria/edit/{id}(id=${c.id})}" class="btn btn-warning btn-sm">Editar</a>
-                <a th:href="@{/admin/categoria/delete/{id}(id=${c.id})}" class="btn btn-danger btn-sm">Borrar</a>
-                <a th:href="@{/admin/categoria/hijos/{id}(id=${c.id})}" class="btn btn-info btn-sm">Ver Hijos</a>
-            </td>
         </tr>
         </tbody>
     </table>
 
-    <!-- Navegación -->
+    <!-- Botones -->
     <div class="mt-3">
         <a th:href="@{/admin/categoria}" class="btn btn-secondary">Volver al listado</a>
         <a th:href="@{/admin/categoria/add}" class="btn btn-primary">Añadir nueva categoría</a>

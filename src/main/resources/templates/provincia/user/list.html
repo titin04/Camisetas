@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="~{fragmentos/generar.html :: headfiles}">
+</head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nombre Provincia</th>
+            <th>Comunidad Autónoma</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="provincia : ${listaProvincias}">
+            <td th:text="${provincia.codigo}"></td>
+            <td th:text="${provincia.nombreProvincia}"></td>
+            <td th:text="${provincia.comunidad}"></td>
+
+        </tr>
+        </tbody>
+    </table>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

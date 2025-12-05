@@ -25,11 +25,16 @@
 
         <div class="mb-3">
             <label for="padre" class="form-label">Categoría Padre</label>
-            <select th:field="*{padre}" class="form-control">
-                <option th:each="c : ${categorias}" th:value="${c}" th:text="${c.nombre}"
-                        th:selected="${c.id} == ${categoria.padre?.id}"></option>
+            <select th:field="*{padre.id}" class="form-control">
+                <option value="" th:text="'Sin padre'"></option>
+                <option th:each="c : ${categorias}"
+                        th:value="${c.id}"
+                        th:text="${c.nombre}"
+                        th:selected="${categoria.padre != null and c.id == categoria.padre.id}">
+                </option>
             </select>
         </div>
+
 
         <button type="submit" class="btn btn-success">Actualizar</button>
         <a th:href="@{/admin/categoria}" class="btn btn-secondary">Cancelar</a>

@@ -32,7 +32,7 @@ public class Camiseta {
     @Column(nullable = false)
     private double precio;
 
-//    @ManyToOne(optional = false)
-//    @JoinColumn(name = "categoria_id")
-//    private Categoria padre;
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "categoria_id")
+    private Categoria categoria;
 }
