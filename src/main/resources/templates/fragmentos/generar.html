@@ -26,9 +26,6 @@
                         <li class="nav-item">
                             <a class="nav-link active" href="/provincia">Provincias</a>
                         </li>
-
-                        <!-- Falta esto por hacer -->
-
                         <li>
                             <a class="nav-link active" href="/carro">Carro</a>
                         </li>
@@ -36,11 +33,11 @@
                             <a class="nav-link active" href="/pedidos">Pedidos</a>
                         </li>
                         <li>
+                            <a class="nav-link active" href="/usuario">Zona usuario</a>
+                        </li>
+                        <li>
                             <a sec:authorize="hasAuthority('ADMIN')" class="nav-link active" href="/admin/pedido">Gestionar Pedidos</a>
                         </li>
-
-                        <!-- Hasta aquí -->
-
                         <li sec:authorize="hasAuthority('ADMIN')" class="nav-item">
                             <a class="nav-link active" href="/admin/camiseta">Gestionar camisetas</a>
                         </li>

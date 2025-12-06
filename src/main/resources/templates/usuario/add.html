@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Añadir nueva dirección</h2>
+
+    <form th:action="@{/usuario/direcciones/add}" method="post" th:object="${newDireccion}">
+        <div class="mb-3">
+            <label for="tipoVia" class="form-label">Tipo de vía</label>
+            <input type="text" id="tipoVia" th:field="*{tipoVia}" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label for="nombreVia" class="form-label">Nombre de vía</label>
+            <input type="text" id="nombreVia" th:field="*{nombreVia}" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label for="numero" class="form-label">Número</label>
+            <input type="text" id="numero" th:field="*{numero}" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label for="planta" class="form-label">Planta</label>
+            <input type="text" id="planta" th:field="*{planta}" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label for="puerta" class="form-label">Puerta</label>
+            <input type="text" id="puerta" th:field="*{puerta}" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label for="portal" class="form-label">Portal</label>
+            <input type="text" id="portal" th:field="*{portal}" class="form-control"/>
+        </div>
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre</label>
+            <input type="text" id="nombre" th:field="*{nombre}" class="form-control"/>
+        </div>
+
+        <div class="mb-3">
+            <label for="codigoPostal" class="form-label">Código Postal</label>
+            <select id="codigoPostal" th:field="*{codigoPostal}" class="form-select">
+                <option th:each="cp : ${codPostales}"
+                        th:value="${cp.cp}"
+                        th:text="${cp.cp + ' - ' + cp.municipio}">
+                </option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Guardar dirección</button>
+        <a th:href="@{/usuario}" class="btn btn-danger">Cancelar</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

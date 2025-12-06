@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Mis datos</h2>
+    <p><strong>Nombre:</strong> <span th:text="${usuario.nombre}"></span></p>
+    <p><strong>Apellido:</strong> <span th:text="${usuario.apellido}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${usuario.email}"></span></p>
+    <p><strong>Teléfono:</strong> <span th:text="${usuario.telefono}"></span></p>
+    <p><strong>NIF:</strong> <span th:text="${usuario.nif}"></span></p>
+
+    <a class="btn btn-warning" th:href="@{/usuario/edit}">Editar datos</a>
+
+    <br><br>
+
+    <h3>Direcciones</h3>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Tipo vía</th>
+            <th>Nombre vía</th>
+            <th>Número</th>
+            <th>Planta</th>
+            <th>Puerta</th>
+            <th>Portal</th>
+            <th>Nombre</th>
+            <th>Código Postal</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="d : ${direcciones}">
+            <td th:text="${d.tipoVia}"></td>
+            <td th:text="${d.nombreVia}"></td>
+            <td th:text="${d.numero}"></td>
+            <td th:text="${d.planta}"></td>
+            <td th:text="${d.puerta}"></td>
+            <td th:text="${d.portal}"></td>
+            <td th:text="${d.nombre}"></td>
+            <td th:text="${d.codigoPostal.cp}"></td>
+            <td>
+                <a class="btn btn-danger btn-sm"
+                   th:href="@{/usuario/direcciones/delete/{id}(id=${d.id})}">Eliminar</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" th:href="@{/usuario/direcciones/add}">Añadir dirección</a>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>
