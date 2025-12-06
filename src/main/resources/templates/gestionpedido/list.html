@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Gestionar pedidos</h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Cliente</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Total</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${pedidos}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.cliente.username}"></td>
+            <td th:text="${p.fecha}"></td>
+            <td th:text="${p.estado}"></td>
+            <td th:text="${#numbers.formatDecimal(p.total,1,2)} + ' €'"></td>
+            <td>
+                <form th:action="@{/admin/pedido/updateEstado/{id}(id=${p.id})}" method="post" class="d-inline">
+                    <select name="estado" class="form-select form-select-sm">
+                        <option th:each="e : ${estados}"
+                                th:value="${e}"
+                                th:text="${e}"
+                                th:selected="${e} == ${p.estado}">
+                        </option>
+                    </select>
+                    <button type="submit" class="btn btn-primary btn-sm">Actualizar</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

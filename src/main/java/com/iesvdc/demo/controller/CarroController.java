@@ -37,9 +37,11 @@ public class CarroController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String username = authentication.getName();
         // obtenemos el usuario del repositorio por su "username"
-        return repoUsuario.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado: " + username));
-
+        Usuario usuario = repoUsuario.findByUsername(username).orElse(null);
+        if (usuario == null) {
+            throw new RuntimeException("Usuario no encontrado: " + username);
+        }
+        return usuario;
     }
 
     @GetMapping("/carro")
@@ -72,28 +74,30 @@ public class CarroController {
     public String addToCarro(@PathVariable Long id) {
         Usuario cliente = getLoggedUser();
 
-        // Buscar camiseta
-        Camiseta camiseta = repoCamiseta.findById(id)
-                .orElseThrow(() -> new RuntimeException("Camiseta no encontrada"));
+        Camiseta camiseta = repoCamiseta.findById(id).orElse(null);
+        if (camiseta == null) {
+            throw new RuntimeException("Camiseta no encontrada");
+        }
 
-        // Buscar pedido en estado CARRITO del cliente
-        Pedido pedido = repoPedido.findByEstadoAndCliente(Estado.CARRITO, cliente)
-                .stream()
-                .findFirst()
-                .orElseGet(() -> {
-                    Pedido nuevo = new Pedido();
-                    nuevo.setCliente(cliente);
-                    nuevo.setEstado(Estado.CARRITO);
-                    nuevo.setFecha(LocalDate.now());
-                    return repoPedido.save(nuevo);
-                });
+        List<Pedido> pedidos = repoPedido.findByEstadoAndCliente(Estado.CARRITO, cliente);
+        Pedido pedido;
 
-        // Crear línea de pedido
+        if (pedidos.isEmpty()) {
+            pedido = new Pedido();
+            pedido.setCliente(cliente);
+            pedido.setEstado(Estado.CARRITO);
+            pedido.setFecha(LocalDate.now());
+            pedido = repoPedido.save(pedido);
+        } else {
+            pedido = pedidos.get(0);
+        }
+
+
         LineaPedido lp = new LineaPedido();
         lp.setPedido(pedido);
         lp.setCamiseta(camiseta);
-        lp.setCantidad(1); // por defecto 1, luego podrás editar
-        lp.setPrecio(camiseta.getPrecio()); // congelar precio actual
+        lp.setCantidad(1);
+        lp.setPrecio(camiseta.getPrecio());
 
         repoLineaPedido.save(lp);
 
@@ -103,8 +107,10 @@ public class CarroController {
 
     @GetMapping("/carro/edit/{id}")
     public String editLineaPedido(@PathVariable Long id, Model model) {
-        LineaPedido lp = repoLineaPedido.findById(id)
-                .orElseThrow(() -> new RuntimeException("Línea de pedido no encontrada"));
+        LineaPedido lp = repoLineaPedido.findById(id).orElse(null);
+        if (lp == null) {
+            throw new RuntimeException("Línea de pedido no encontrada");
+        }
 
         model.addAttribute("lineapedido", lp);
         return "carro/edit";
@@ -113,8 +119,10 @@ public class CarroController {
     @PostMapping("/carro/edit/{id}")
     public String updateLineaPedido(@PathVariable Long id,
                                     @RequestParam("cantidad") Integer cantidad) {
-        LineaPedido lp = repoLineaPedido.findById(id)
-                .orElseThrow(() -> new RuntimeException("Línea de pedido no encontrada"));
+        LineaPedido lp = repoLineaPedido.findById(id).orElse(null);
+        if (lp == null) {
+            throw new RuntimeException("Línea de pedido no encontrada");
+        }
 
         lp.setCantidad(cantidad);
         repoLineaPedido.save(lp);
@@ -124,8 +132,10 @@ public class CarroController {
 
     @GetMapping("/carro/del/{id}")
     public String deleteLineaPedido(@PathVariable Long id) {
-        LineaPedido lp = repoLineaPedido.findById(id)
-                .orElseThrow(() -> new RuntimeException("Línea de pedido no encontrada"));
+        LineaPedido lp = repoLineaPedido.findById(id).orElse(null);
+        if (lp == null) {
+            throw new RuntimeException("Línea de pedido no encontrada");
+        }
 
         repoLineaPedido.delete(lp);
 
@@ -136,10 +146,14 @@ public class CarroController {
     public String confirmarCarro(Model model) {
         Usuario cliente = getLoggedUser();
 
-        Pedido pedido = repoPedido.findByEstadoAndCliente(Estado.CARRITO, cliente)
-                .stream()
-                .findFirst()
-                .orElse(null);
+        List<Pedido> pedidos = repoPedido.findByEstadoAndCliente(Estado.CARRITO, cliente);
+        Pedido pedido;
+
+        if (pedidos.isEmpty()) {
+            pedido = null;
+        } else {
+            pedido = pedidos.get(0);
+        }
 
         if (pedido == null) {
             return "redirect:/camiseta";
@@ -161,10 +175,14 @@ public class CarroController {
     public String terminarCarro(@RequestParam(value = "observaciones", required = false) String observaciones) {
         Usuario cliente = getLoggedUser();
 
-        Pedido pedido = repoPedido.findByEstadoAndCliente(Estado.CARRITO, cliente)
-                .stream()
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("No hay carro para confirmar"));
+        List<Pedido> pedidos = repoPedido.findByEstadoAndCliente(Estado.CARRITO, cliente);
+        Pedido pedido;
+
+        if (pedidos.isEmpty()) {
+            throw new RuntimeException("No hay carro para confirmar");
+        } else {
+            pedido = pedidos.get(0);
+        }
 
         pedido.setEstado(Estado.REALIZADO);
         pedido.setFecha(LocalDate.now());
