@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Confirmar pedido</h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="lp : ${lineapedidos}">
+            <td th:text="${lp.camiseta.marca} + ' ' + ${lp.camiseta.color}"></td>
+            <td th:text="${lp.cantidad}"></td>
+            <td th:text="|${lp.camiseta.precio} €|"></td>
+        </tr>
+        <tr>
+            <th colspan="2">TOTAL</th>
+            <td th:text="${#numbers.formatDecimal(total, 1, 2)} + ' €'"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <form th:action="@{/carro/confirmar}" method="post">
+        <button type="submit" class="btn btn-success">Terminar y pagar</button>
+        <a href="/carro" class="btn btn-primary">Volver al carro</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

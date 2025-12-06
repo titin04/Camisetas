@@ -45,9 +45,12 @@
             <td th:text="${c.precio}"></td>
             <td th:text="${c.categoria != null ? c.categoria.nombre : '---'}"></td>
             <td>
-                <!--<a th:href="@{/admin/camiseta/delete/{id}(id=${c.id})}" class="btn btn-danger btn-sm">Borrar</a>-->
-                <a class="btn btn-primary mb-3">Comprar</a>
+                <a class="btn btn-primary mb-3"
+                   th:href="@{/carro/add/{id}(id=${c.id})}">
+                    Comprar
+                </a>
             </td>
+
         </tr>
         </tbody>
     </table>

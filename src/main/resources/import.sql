@@ -23,3 +23,5 @@ INSERT INTO camiseta (precio, stock, color, marca, sexo, talla, categoria_id) VA
 INSERT INTO camiseta (precio, stock, color, marca, sexo, talla, categoria_id) VALUES (19.50, 35, 'Morado', 'Puma', 'CHICA', 'S', 4);
 
 insert into usuario (username, password, enabled, rol, email, telefono, nif, nombre, apellido) values ('admin', '$2a$08$w8gu7OiJ0gs6y/Xjy1XXneI2kzsgXE1kNZbjE3CtCKknjFiP03MHS', true, 'ADMIN', 'admin@tienda.com', 600000000, '12345678A', 'Admin', 'User');
+
+insert into usuario (username, password, enabled, rol, email, telefono, nif, nombre, apellido) values ('titin', '$2a$08$w8gu7OiJ0gs6y/Xjy1XXneI2kzsgXE1kNZbjE3CtCKknjFiP03MHS', true, 'CLIENTE', 'titin@tienda.com', 600000001, '12345648A', 'titin', 'titin');

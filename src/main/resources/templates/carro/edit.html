@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Editar cantidad</h2>
+
+    <form th:action="@{/carro/edit/{id}(id=${lineapedido.id})}" method="post">
+        <div class="mb-3">
+            <label for="cantidad" class="form-label">Cantidad</label>
+            <input type="number" id="cantidad" name="cantidad"
+                   th:value="${lineapedido.cantidad}" min="1" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/carro" class="btn btn-danger">Cancelar</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

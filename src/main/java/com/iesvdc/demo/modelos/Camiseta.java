@@ -30,7 +30,7 @@ public class Camiseta {
     private int stock;
 
     @Column(nullable = false)
-    private double precio;
+    private float precio;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "categoria_id")
