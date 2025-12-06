@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Editar observaciones del pedido</h2>
+
+    <form th:action="@{/pedido/edit/{id}(id=${pedido.id})}" method="post">
+        <div class="mb-3">
+            <label for="observaciones" class="form-label">Observaciones</label>
+            <textarea id="observaciones" name="observaciones" class="form-control"
+                      th:text="${pedido.observaciones}"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a href="/pedidos" class="btn btn-danger">Cancelar</a>
+    </form>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

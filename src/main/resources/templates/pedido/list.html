@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<head th:replace="~{fragmentos/generar.html :: headfiles}"></head>
+<body>
+<div class="container">
+    <nav th:replace="~{fragmentos/generar.html :: navegacion}"></nav>
+
+    <h2>Mis pedidos</h2>
+
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th>Observaciones</th>
+            <th>Total</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p : ${pedidos}">
+            <td th:text="${p.id}"></td>
+            <td th:text="${p.fecha}"></td>
+            <td th:text="${p.estado}"></td>
+            <td th:text="${p.observaciones}"></td>
+            <td th:text="${#numbers.formatDecimal(p.total,1,2)} + ' €'"></td>
+            <td>
+                <a class="btn btn-warning btn-sm" th:href="@{/pedido/edit/{id}(id=${p.id})}">
+                    Editar
+                </a>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <footer th:replace="~{fragmentos/generar.html :: footer}"></footer>
+</div>
+</body>
+</html>

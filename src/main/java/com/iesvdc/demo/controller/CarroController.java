@@ -158,7 +158,7 @@ public class CarroController {
     }
 
     @PostMapping("/carro/confirmar")
-    public String terminarCarro() {
+    public String terminarCarro(@RequestParam(value = "observaciones", required = false) String observaciones) {
         Usuario cliente = getLoggedUser();
 
         Pedido pedido = repoPedido.findByEstadoAndCliente(Estado.CARRITO, cliente)
@@ -168,7 +168,14 @@ public class CarroController {
 
         pedido.setEstado(Estado.REALIZADO);
         pedido.setFecha(LocalDate.now());
+        double total = 0;
+        for (LineaPedido lp : pedido.getLineaPedidos()) {
+            total += lp.getCantidad() * lp.getCamiseta().getPrecio();
+        }
+        pedido.setObservaciones(observaciones);
+        pedido.setTotal((float) total);
         repoPedido.save(pedido);
+
 
         return "redirect:/pedidos";
     }

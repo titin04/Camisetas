@@ -29,6 +29,11 @@
     </table>
 
     <form th:action="@{/carro/confirmar}" method="post">
+        <div class="mb-3">
+            <label for="observaciones" class="form-label">Observaciones</label>
+            <textarea id="observaciones" name="observaciones" class="form-control"
+                      placeholder="Escriba aquí sus observaciones..."></textarea>
+        </div>
         <button type="submit" class="btn btn-success">Terminar y pagar</button>
         <a href="/carro" class="btn btn-primary">Volver al carro</a>
     </form>
